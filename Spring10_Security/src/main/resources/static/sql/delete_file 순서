@@ -1,0 +1,31 @@
+트리거 사용법 확인
+
+1. emp 테이블 구조와 동일하고 emp 테이블의 데이터 14개의 로우를 갖는 테이블 emp01 만들어 주세요.
+
+2. emp 테이블 구조에서 ename, job, empno 컬럼과 동일한 구조를 갖지만 데이터는 없는 테이블 temp 만들어 주세요.
+
+3. emp01을 삭제한 후 temp테이블에 삭제된 로우가 저장되도록 트리거를 작성합니다.
+
+
+1. 
+create table emp01
+as
+select * from emp;
+
+
+2.
+create table temp
+as
+select ename, job, empno from emp
+where 1 = 0;
+
+
+3. 
+create or replace trigger emp01_temp
+after delete
+on emp01
+for each row
+begin
+	insert into temp
+	values(:old.ename, :old.job, :old.empno);
+end;
